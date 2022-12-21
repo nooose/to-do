@@ -3,10 +3,10 @@ package com.noose.todo.domain.schedule;
 public class Schedule {
 
     private Title title;
-    private String body;
+    private Body body;
 
     public Schedule(String title, String body) {
         this.title = new Title(title);
-        this.body = body;
+        this.body = new Body(body);
     }
 }
