@@ -1,10 +1,12 @@
 package com.noose.todo.domain.schedule;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@EqualsAndHashCode
 public class Period {
 
     private LocalDateTime startDate;

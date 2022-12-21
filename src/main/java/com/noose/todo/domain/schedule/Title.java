@@ -1,5 +1,10 @@
 package com.noose.todo.domain.schedule;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+@Getter
+@EqualsAndHashCode
 public class Title {
 
     private static final int MAX_LENGTH = 20;
@@ -14,7 +19,7 @@ public class Title {
 
     private void validate(String title) {
         if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("제목은 null 또는 빈 문자열이 될 수 없습니다.");
+            throw new IllegalArgumentException("null 또는 빈 문자열이 될 수 없습니다.");
         }
 
         if (title.length() > MAX_LENGTH) {
