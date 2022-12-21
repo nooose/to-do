@@ -1,16 +1,24 @@
 package com.noose.todo.domain.schedule;
 
-public class Schedule {
+public class ScheduleNote {
 
     private Title title;
     private Body body;
     private Todos todos;
+    private Period period = new Period();
 
-    public Schedule(String title) {
+    public ScheduleNote(String title) {
         this(title, "");
     }
 
-    public Schedule(String title, String body) {
+    public ScheduleNote(Title title, Body body, Todos todos, Period period) {
+        this.title = title;
+        this.body = body;
+        this.todos = todos;
+        this.period = period;
+    }
+
+    public ScheduleNote(String title, String body) {
         this.title = new Title(title);
         this.body = new Body(body);
         this.todos = new Todos();
