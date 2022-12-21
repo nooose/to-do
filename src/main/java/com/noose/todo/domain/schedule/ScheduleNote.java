@@ -5,10 +5,14 @@ public class ScheduleNote {
     private Title title;
     private Body body;
     private Todos todos;
-    private Period period = new Period();
+    private Period period;
 
     public ScheduleNote(String title) {
         this(title, "");
+    }
+
+    public ScheduleNote(String title, String body) {
+        this(new Title(title), new Body(body), new Todos(), new Period());
     }
 
     public ScheduleNote(Title title, Body body, Todos todos, Period period) {
@@ -16,12 +20,6 @@ public class ScheduleNote {
         this.body = body;
         this.todos = todos;
         this.period = period;
-    }
-
-    public ScheduleNote(String title, String body) {
-        this.title = new Title(title);
-        this.body = new Body(body);
-        this.todos = new Todos();
     }
 
     public boolean isEmptyBody() {
