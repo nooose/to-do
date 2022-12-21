@@ -30,7 +30,8 @@ class ScheduleNoteTest {
     @NullAndEmptySource
     @ParameterizedTest
     void createTitleExceptionScheduleTest(String title) {
-        assertThatThrownBy(() -> new ScheduleNote(title)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new ScheduleNote(title))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("Todo 를 추가할 수 있다.")
