@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DisplayName("Body 도메인 테스트")
 class BodyTest {
 
-    @DisplayName("null 인 경우 예외가 발생한다")
+    @DisplayName("null 인 경우 예외가 발생한다.")
     @NullSource
     @ParameterizedTest(name = "입력값: {0}")
     void bodyNullAndEmptyTest(String body) {

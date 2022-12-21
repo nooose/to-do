@@ -9,10 +9,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("시작일과 종료일에 관한 테스트")
+@DisplayName("Period 도메인 테스트")
 class PeriodTest {
 
-    @DisplayName("종료일과 시작일의 기본값은 현재 시간으로 설정된다.")
+    @DisplayName("시작일과 종료일의 기본값은 현재 시간으로 설정된다.")
     @Test
     void defaultDateTest() {
         Period period = new Period();
@@ -23,7 +23,7 @@ class PeriodTest {
         });
     }
 
-    @DisplayName("종료일이 시작일보다 빠른경우 예외가 발생한다")
+    @DisplayName("종료일이 시작일보다 빠른경우 예외가 발생한다.")
     @Test
     void selectEndDateTest() {
         LocalDateTime startDate = LocalDateTime.of(2022, 12, 30, 0, 0);

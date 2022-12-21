@@ -1,5 +1,10 @@
 package com.noose.todo.domain.schedule;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+@Getter
+@EqualsAndHashCode
 public class Body {
 
     private static final int MAX_LENGTH = 500;
