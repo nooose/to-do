@@ -1,6 +1,5 @@
-package com.noose.todo.domain.schdule;
+package com.noose.todo.domain.schedule;
 
-import com.noose.todo.domain.schedule.Body;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
