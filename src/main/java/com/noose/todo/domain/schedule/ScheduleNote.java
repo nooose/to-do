@@ -1,25 +1,26 @@
 package com.noose.todo.domain.schedule;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public class ScheduleNote {
 
     private Title title;
     private Body body;
+
+    private Hashtags hashtags;
     private Todos todos;
     private Period period;
 
-    public ScheduleNote(String title) {
-        this(title, "");
+    public static ScheduleNote of(String title) {
+        return of(title, "");
     }
 
-    public ScheduleNote(String title, String body) {
-        this(new Title(title), new Body(body), new Todos(), new Period());
-    }
-
-    public ScheduleNote(Title title, Body body, Todos todos, Period period) {
-        this.title = title;
-        this.body = body;
-        this.todos = todos;
-        this.period = period;
+    public static ScheduleNote of(String title, String body) {
+        Body newBody = new Body(body);
+        return new ScheduleNote(new Title(title), newBody, new Hashtags(newBody), new Todos(), new Period());
     }
 
     public boolean isEmptyBody() {
