@@ -1,4 +1,4 @@
-package com.noose.todo.domain.schdule;
+package com.noose.todo.domain.schedule;
 
 public class Body {
 
