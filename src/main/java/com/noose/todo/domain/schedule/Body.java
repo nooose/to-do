@@ -4,21 +4,25 @@ public class Body {
 
     private static final int MAX_LENGTH = 500;
 
-    private String value;
+    private String contents;
 
-    public Body(String value) {
-        validate(value);
+    public Body(String contents) {
+        validate(contents);
 
-        this.value = value;
+        this.contents = contents;
     }
 
-    private void validate(String body) {
-        if (body == null || body.equals("")) {
-            throw new IllegalArgumentException("글자수는 빈값이거나 null 일 수 없습니다.");
+    private void validate(String contents) {
+        if (contents == null) {
+            throw new IllegalArgumentException("본문 내용은 null 일 수 없습니다.");
         }
 
-        if (body.length() > MAX_LENGTH) {
+        if (contents.length() > MAX_LENGTH) {
             throw new IllegalArgumentException("본문 내용 길이는" + MAX_LENGTH + "보다 클 수 없습니다.");
         }
+    }
+
+    public boolean isEmpty() {
+        return contents.isEmpty();
     }
 }
