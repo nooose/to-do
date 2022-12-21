@@ -28,6 +28,7 @@ class PeriodTest {
     void selectEndDateTest() {
         LocalDateTime startDate = LocalDateTime.of(2022, 12, 30, 0, 0);
         LocalDateTime endDate = LocalDateTime.of(2022, 12, 12, 0, 0);
+
         assertThatThrownBy(() -> new Period(startDate, endDate)).isInstanceOf(IllegalArgumentException.class);
     }
 }
