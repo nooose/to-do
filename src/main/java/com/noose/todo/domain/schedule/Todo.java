@@ -2,16 +2,17 @@ package com.noose.todo.domain.schedule;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Todo {
 
     private static final int MAX_LENGTH = 30;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "todo_id")
     private Long id;
     private String contents;
@@ -32,6 +33,14 @@ public class Todo {
 
         this.contents = contents;
         this.status = Status.INCOMPLETE;
+    }
+
+    public static Todo of(String contents) {
+        return new Todo(contents);
+    }
+
+    public void setScheduleNote(ScheduleNote scheduleNote) {
+        this.scheduleNote = scheduleNote;
     }
 
     public void complete() {

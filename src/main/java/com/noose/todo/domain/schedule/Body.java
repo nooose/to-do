@@ -1,5 +1,6 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,6 +14,7 @@ public class Body {
 
     private static final int MAX_LENGTH = 500;
 
+    @Column
     private String contents;
 
     public Body(String contents) {
