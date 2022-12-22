@@ -1,5 +1,6 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class Hashtags {
     private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w가-힣]+");
 
     @Getter
+    @OneToMany(mappedBy = "hashtag")
     private Set<Hashtag> values = new LinkedHashSet<>();
 
     public Hashtags(Body body) {
