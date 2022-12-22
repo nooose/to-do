@@ -51,9 +51,27 @@ public class ScheduleNote {
 
     public void addTodo(Todo todo) {
         todos.add(todo);
+        todo.setScheduleNote(this);
+    }
+
+    public void addTodos(Todos todos) {
+        this.todos.addAll(todos);
+        todos.setNote(this);
     }
 
     public int todoSize() {
         return todos.size();
+    }
+
+    public void updateTitle(String title) {
+        this.title = new Title(title);
+    }
+
+    public void updateBody(String body) {
+        this.body = new Body(body);
+    }
+
+    public void deleteTodo(Todo todo) {
+        todos.delete(todo);
     }
 }

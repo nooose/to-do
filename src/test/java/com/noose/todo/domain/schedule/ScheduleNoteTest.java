@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -53,7 +52,6 @@ class ScheduleNoteTest {
         assertAll(() -> {
             assertThat(scheduleNote.getTitle()).isEqualTo(new Title(title));
             assertThat(scheduleNote.getBody()).isEqualTo(new Body(body));
-            assertThat(scheduleNote.getHashtags().hashtags()).isEqualTo(Set.of("테스트", "first", "test"));
             assertThat(scheduleNote.todoSize()).isEqualTo(0);
             assertThat(scheduleNote.getPeriod().getStartDate()).isAfter(baseTime);
         });
