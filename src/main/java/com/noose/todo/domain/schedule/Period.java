@@ -1,5 +1,6 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @EqualsAndHashCode
+@Embeddable
 public class Period {
 
     private LocalDateTime startDate;

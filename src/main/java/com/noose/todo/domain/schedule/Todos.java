@@ -1,9 +1,14 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.OneToMany;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Embeddable
 public class Todos {
+    @OneToMany(mappedBy = "scheduleNote")
     private List<Todo> todos = new ArrayList<>();
 
     public Todos() {

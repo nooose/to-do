@@ -1,18 +1,32 @@
 package com.noose.todo.domain.schedule;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Entity
 public class ScheduleNote {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "schedule_note_id")
+    private Long id;
+    @Embedded
     private Title title;
+    @Embedded
     private Body body;
-
-    private Hashtags hashtags;
-    private Todos todos;
+    @Embedded
     private Period period;
+    @OneToMany(mappedBy = "scheduleNote")
+    private List<NoteHashtag> noteHashtags = new ArrayList<>();
+    @Embedded
+    private Todos todos;
 
     public static ScheduleNote of(String title) {
         return of(title, "");
@@ -20,7 +34,15 @@ public class ScheduleNote {
 
     public static ScheduleNote of(String title, String body) {
         Body newBody = new Body(body);
-        return new ScheduleNote(new Title(title), newBody, new Hashtags(newBody), new Todos(), new Period());
+        return new ScheduleNote(null, new Title(title), new Body(body), new Period(), new Todos());
+    }
+
+    private ScheduleNote(Long id, Title title, Body body, Period period, Todos todos) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.period = period;
+        this.todos = todos;
     }
 
     public boolean isEmptyBody() {
