@@ -1,10 +1,14 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @EqualsAndHashCode
+@NoArgsConstructor
+@Embeddable
 public class Body {
 
     private static final int MAX_LENGTH = 500;

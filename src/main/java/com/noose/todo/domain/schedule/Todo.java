@@ -1,11 +1,25 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Todo {
 
     private static final int MAX_LENGTH = 30;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
+    private Long id;
     private String contents;
     private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_note_id")
+    private ScheduleNote scheduleNote;
 
     public Todo(String contents) {
         if (contents == null || contents.isEmpty()) {

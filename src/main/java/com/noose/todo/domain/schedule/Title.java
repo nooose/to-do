@@ -1,14 +1,20 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
+@Embeddable
 public class Title {
 
     private static final int MAX_LENGTH = 20;
 
+    @Column(name = "title")
     private String value;
 
     public Title(String value) {

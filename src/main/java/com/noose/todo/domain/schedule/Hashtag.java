@@ -1,11 +1,26 @@
 package com.noose.todo.domain.schedule;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Hashtag {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hashtag_id")
+    private Long id;
 
     @Getter
     private String hashtagName;
+
+    @OneToMany(mappedBy = "hashtag")
+    private List<NoteHashtag> noteHashtags;
 
     public Hashtag(String hashtagName) {
         if (hashtagName == null) {
