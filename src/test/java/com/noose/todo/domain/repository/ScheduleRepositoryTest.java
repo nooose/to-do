@@ -1,4 +1,4 @@
-package com.noose.todo.domain.Repository;
+package com.noose.todo.domain.repository;
 
 import com.noose.todo.domain.config.JpaConfiguration;
 import com.noose.todo.domain.schedule.*;
