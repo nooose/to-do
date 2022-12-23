@@ -1,11 +1,14 @@
 package com.noose.todo.domain.Repository;
 
+import com.noose.todo.domain.config.JpaConfiguration;
 import com.noose.todo.domain.schedule.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("[Repository] ScheduleRepository 테스트")
+@Import(JpaConfiguration.class)
 @DataJpaTest
 class ScheduleRepositoryTest {
 
@@ -22,6 +26,8 @@ class ScheduleRepositoryTest {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private NoteRepository noteRepository;
 
     @DisplayName("Entity를 저장할 수 있다.")
     @Test
@@ -108,6 +114,21 @@ class ScheduleRepositoryTest {
         assertAll(() -> {
             assertThat(result.getTodos().size()).isEqualTo(2);
             assertThat(todoRepository.findById(todo3.getId())).isEmpty();
+        });
+    }
+
+    @DisplayName("데이터 저장 시 현재시간도 같이 저장된다.")
+    @Test
+    void findScheduleNote() {
+        ScheduleNote scheduleNote = ScheduleNote.of("오늘은 금요일", "이따 저녁에 뭐먹지?");
+        scheduleRepository.save(scheduleNote);
+
+        ScheduleNote findScheduleNote = scheduleRepository.findById(scheduleNote.getId()).get();
+
+        LocalDateTime now = LocalDateTime.now();
+        assertAll(() -> {
+            assertThat(findScheduleNote.getCreatedAt()).isBefore(now);
+            assertThat(findScheduleNote.getModifiedAt()).isBefore(now);
         });
     }
 }
