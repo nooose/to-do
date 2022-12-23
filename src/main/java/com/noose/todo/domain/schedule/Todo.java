@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Todo {
+public class Todo extends AuditingFields {
 
     private static final int MAX_LENGTH = 30;
 

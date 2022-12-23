@@ -1,6 +1,8 @@
 package com.noose.todo.domain.schedule;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,20 +13,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class ScheduleNote {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_note_id")
-    private Long id;
-    @Embedded
-    private Title title;
-    @Embedded
-    private Body body;
+public class ScheduleNote extends Note {
     @Embedded
     private Period period;
+
     @OneToMany(mappedBy = "scheduleNote")
     private List<NoteHashtag> noteHashtags = new ArrayList<>();
+
     @Embedded
     private Todos todos;
 
@@ -38,15 +33,9 @@ public class ScheduleNote {
     }
 
     private ScheduleNote(Long id, Title title, Body body, Period period, Todos todos) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
+        super(id, title, body);
         this.period = period;
         this.todos = todos;
-    }
-
-    public boolean isEmptyBody() {
-        return body.isEmpty();
     }
 
     public void addTodo(Todo todo) {
@@ -61,14 +50,6 @@ public class ScheduleNote {
 
     public int todoSize() {
         return todos.size();
-    }
-
-    public void updateTitle(String title) {
-        this.title = new Title(title);
-    }
-
-    public void updateBody(String body) {
-        this.body = new Body(body);
     }
 
     public void deleteTodo(Todo todo) {
