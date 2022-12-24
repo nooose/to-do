@@ -1,0 +1,40 @@
+### 1. 노트 등록
+POST http://localhost:8080/api/v1/notes
+Content-Type: application/json
+
+{
+  "title": "테스트 제목",
+  "body": "테스트 내용",
+  "todos": []
+}
+
+### 1.1 노트 등록 (with Todo)
+POST http://localhost:8080/api/v1/notes
+Content-Type: application/json
+
+{
+  "title": "테스트 제목",
+  "body": "테스트 내용",
+  "todos": [
+    "할 일1",
+    "할 일2"
+  ]
+}
+
+### 2. Note 조회
+GET localhost:8080/api/v1/notes
+
+### 2.1 Note 단건 조회
+GET localhost:8080/api/v1/notes/1
+
+### 3. Note 수정
+PUT localhost:8080/api/v1/notes/1
+Content-Type: application/json
+
+{
+  "title" : "수정 제목",
+  "body" : "수정 내용"
+}
+
+### 4. Note 삭제
+DELETE localhost:8080/api/v1/notes/1
