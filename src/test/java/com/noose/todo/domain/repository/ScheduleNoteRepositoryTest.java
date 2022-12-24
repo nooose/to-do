@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @DisplayName("[Repository] ScheduleRepository 테스트")
 @Import(JpaConfiguration.class)
 @DataJpaTest
-class ScheduleRepositoryTest {
+class ScheduleNoteRepositoryTest {
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private ScheduleNoteRepository scheduleNoteRepository;
 
     @Autowired
     private TodoRepository todoRepository;
@@ -32,7 +32,7 @@ class ScheduleRepositoryTest {
     void saveScheduleNoteTest() {
         ScheduleNote scheduleNote = ScheduleNote.of("목요일 저녁은?", "햄버거!");
 
-        ScheduleNote result = scheduleRepository.save(scheduleNote);
+        ScheduleNote result = scheduleNoteRepository.save(scheduleNote);
 
         assertThat(result.getId()).isNotNull();
     }
@@ -45,9 +45,9 @@ class ScheduleRepositoryTest {
 
         scheduleNote.addTodo(todo);
         Todo newTodo = todoRepository.save(todo);
-        scheduleRepository.save(scheduleNote);
+        scheduleNoteRepository.save(scheduleNote);
 
-        ScheduleNote findScheduleNote = scheduleRepository.findById(scheduleNote.getId()).get();
+        ScheduleNote findScheduleNote = scheduleNoteRepository.findById(scheduleNote.getId()).get();
         Todo findTodo = todoRepository.findById(newTodo.getId()).get();
         assertAll(() -> {
             assertThat(findScheduleNote.getTodos().size()).isEqualTo(1);
@@ -61,10 +61,10 @@ class ScheduleRepositoryTest {
         String updateTitle = "내일 저녁은";
         String updateBody = "피자";
         ScheduleNote scheduleNote = ScheduleNote.of("목요일 저녁은?", "햄버거!");
-        ScheduleNote result = scheduleRepository.save(scheduleNote);
+        ScheduleNote result = scheduleNoteRepository.save(scheduleNote);
 
         result.update(updateTitle, updateBody);
-        ScheduleNote findScheduleNote = scheduleRepository.findById(scheduleNote.getId()).get();
+        ScheduleNote findScheduleNote = scheduleNoteRepository.findById(scheduleNote.getId()).get();
 
         assertAll(() -> {
             assertThat(findScheduleNote.getTitle()).isEqualTo(new Title(updateTitle));
@@ -80,12 +80,12 @@ class ScheduleRepositoryTest {
 
         scheduleNote.addTodo(todo);
         todoRepository.save(todo);
-        scheduleRepository.save(scheduleNote);
+        scheduleNoteRepository.save(scheduleNote);
 
-        scheduleRepository.delete(scheduleNote);
+        scheduleNoteRepository.delete(scheduleNote);
 
         Optional<Todo> resultTodo = todoRepository.findById(todo.getId());
-        Optional<ScheduleNote> resultScheduleNote = scheduleRepository.findById(scheduleNote.getId());
+        Optional<ScheduleNote> resultScheduleNote = scheduleNoteRepository.findById(scheduleNote.getId());
 
         assertAll(() -> {
             assertThat(resultTodo).isEmpty();
@@ -103,12 +103,12 @@ class ScheduleRepositoryTest {
         ScheduleNote scheduleNote = ScheduleNote.of("목요일 저녁은?", "햄버거!");
         Todos todos = new Todos(List.of(todo1, todo2, todo3));
         scheduleNote.addTodos(todos);
-        scheduleRepository.save(scheduleNote);
+        scheduleNoteRepository.save(scheduleNote);
 
         todoRepository.delete(todo3);
 
         assertAll(() -> {
-            assertThat(scheduleRepository.findById(scheduleNote.getId()).get().getTodos().size()).isEqualTo(3);
+            assertThat(scheduleNoteRepository.findById(scheduleNote.getId()).get().getTodos().size()).isEqualTo(3);
             assertThat(todoRepository.findById(todo3.getId())).isEmpty();
         });
     }
@@ -117,9 +117,9 @@ class ScheduleRepositoryTest {
     @Test
     void findScheduleNote() {
         ScheduleNote scheduleNote = ScheduleNote.of("오늘은 금요일", "이따 저녁에 뭐먹지?");
-        scheduleRepository.save(scheduleNote);
+        scheduleNoteRepository.save(scheduleNote);
 
-        ScheduleNote findScheduleNote = scheduleRepository.findById(scheduleNote.getId()).get();
+        ScheduleNote findScheduleNote = scheduleNoteRepository.findById(scheduleNote.getId()).get();
 
         LocalDateTime now = LocalDateTime.now();
         assertAll(() -> {
