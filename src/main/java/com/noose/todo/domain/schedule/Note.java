@@ -3,10 +3,12 @@ package com.noose.todo.domain.schedule;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorColumn
 @DiscriminatorValue("N")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
@@ -23,6 +25,10 @@ public class Note extends AuditingFields {
 
     public static Note of(String title, String body) {
         return new Note(null, new Title(title), new Body(body));
+    }
+
+    public List<Todo> todos() {
+        return List.of();
     }
 
     public boolean isEmptyBody() {

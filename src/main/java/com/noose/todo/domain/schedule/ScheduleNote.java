@@ -20,25 +20,29 @@ public class ScheduleNote extends Note {
     private List<NoteHashtag> noteHashtags = new ArrayList<>();
 
     @Embedded
-    private Todos todos;
+    private Todos todos = new Todos();
+
+    private ScheduleNote(Long id, Title title, Body body, Period period, Todos todos) {
+        super(id, title, body);
+        this.period = period;
+        addTodos(todos);
+    }
 
     public static ScheduleNote of(String title) {
         return of(title, "");
     }
 
     public static ScheduleNote of(String title, String body) {
-        return ScheduleNote.of(title, body, new Todos());
+        return of(title, body, new Todos());
     }
 
     public static ScheduleNote of(String title, String body, Todos todos) {
         return new ScheduleNote(null, new Title(title), new Body(body), new Period(), todos);
     }
 
-    private ScheduleNote(Long id, Title title, Body body, Period period, Todos todos) {
-        super(id, title, body);
-        this.period = period;
-        this.todos = todos;
-        this.todos.setNote(this);
+    @Override
+    public List<Todo> todos() {
+        return todos.getValues();
     }
 
     public void addTodo(Todo todo) {
