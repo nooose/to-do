@@ -42,6 +42,7 @@ public class NoteService {
         return updateNote;
     }
 
+    @Transactional
     public void delete(Long noteId) {
         Note deleteNote = searchById(noteId);
         noteRepository.delete(deleteNote);
