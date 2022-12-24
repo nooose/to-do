@@ -2,6 +2,7 @@ package com.noose.todo.domain.schedule;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
@@ -11,7 +12,10 @@ import java.util.List;
 @Getter
 @Embeddable
 public class Todos {
-    @OneToMany(mappedBy = "note", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "note",
+            cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Todo> values = new ArrayList<>();
 
     public Todos() {
@@ -35,6 +39,9 @@ public class Todos {
     }
 
     public void addAll(Todos todos) {
+        if (todos == null) {
+            return;
+        }
         this.values.addAll(todos.values);
     }
 
