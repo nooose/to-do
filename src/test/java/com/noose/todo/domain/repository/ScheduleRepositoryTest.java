@@ -1,6 +1,6 @@
 package com.noose.todo.domain.repository;
 
-import com.noose.todo.domain.config.JpaConfiguration;
+import com.noose.todo.config.JpaConfiguration;
 import com.noose.todo.domain.schedule.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ class ScheduleRepositoryTest {
         Todo findTodo = todoRepository.findById(newTodo.getId()).get();
         assertAll(() -> {
             assertThat(findScheduleNote.getTodos().size()).isEqualTo(1);
-            assertThat(findTodo.getScheduleNote()).isEqualTo(findScheduleNote);
+            assertThat(findTodo.getNote()).isEqualTo(findScheduleNote);
         });
     }
 
@@ -65,8 +65,7 @@ class ScheduleRepositoryTest {
         ScheduleNote scheduleNote = ScheduleNote.of("목요일 저녁은?", "햄버거!");
         ScheduleNote result = scheduleRepository.save(scheduleNote);
 
-        result.updateTitle(updateTitle);
-        result.updateBody(updateBody);
+        result.update(updateTitle, updateBody);
         ScheduleNote findScheduleNote = scheduleRepository.findById(scheduleNote.getId()).get();
 
         assertAll(() -> {
