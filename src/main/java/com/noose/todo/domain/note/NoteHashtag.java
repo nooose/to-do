@@ -1,4 +1,4 @@
-package com.noose.todo.domain.schedule;
+package com.noose.todo.domain.note;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

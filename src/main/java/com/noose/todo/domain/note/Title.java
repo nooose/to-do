@@ -1,4 +1,4 @@
-package com.noose.todo.domain.schedule;
+package com.noose.todo.domain.note;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

@@ -1,6 +1,6 @@
 package com.noose.todo.controller.dto.response;
 
-import com.noose.todo.domain.schedule.Note;
+import com.noose.todo.domain.note.Note;
 
 import java.util.List;
 

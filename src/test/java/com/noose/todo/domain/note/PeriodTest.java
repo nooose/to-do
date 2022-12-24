@@ -1,4 +1,4 @@
-package com.noose.todo.domain.schedule;
+package com.noose.todo.domain.note;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

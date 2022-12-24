@@ -1,6 +1,6 @@
 package com.noose.todo.controller.dto.response;
 
-import com.noose.todo.domain.schedule.Todo;
+import com.noose.todo.domain.note.Todo;
 
 public record TodoResponse(
         Long id,

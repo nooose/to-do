@@ -1,9 +1,9 @@
 package com.noose.todo.controller.dto.request;
 
-import com.noose.todo.domain.schedule.Note;
-import com.noose.todo.domain.schedule.ScheduleNote;
-import com.noose.todo.domain.schedule.Todo;
-import com.noose.todo.domain.schedule.Todos;
+import com.noose.todo.domain.note.Note;
+import com.noose.todo.domain.note.ScheduleNote;
+import com.noose.todo.domain.note.Todo;
+import com.noose.todo.domain.note.Todos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

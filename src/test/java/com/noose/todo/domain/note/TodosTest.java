@@ -1,4 +1,4 @@
-package com.noose.todo.domain.schedule;
+package com.noose.todo.domain.note;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Todo 일급컬렉션 도메인 테스트")
 class TodosTest {

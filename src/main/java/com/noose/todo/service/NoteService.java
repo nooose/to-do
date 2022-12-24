@@ -2,7 +2,7 @@ package com.noose.todo.service;
 
 import com.noose.todo.controller.dto.request.UpdateNoteRequest;
 import com.noose.todo.domain.repository.NoteRepository;
-import com.noose.todo.domain.schedule.Note;
+import com.noose.todo.domain.note.Note;
 import com.noose.todo.exception.TodoException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
