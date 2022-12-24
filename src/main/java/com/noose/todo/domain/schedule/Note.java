@@ -6,7 +6,9 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-@DiscriminatorColumn @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.CHAR)
+@DiscriminatorValue("N")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 public class Note extends AuditingFields {
 
@@ -19,15 +21,16 @@ public class Note extends AuditingFields {
     @Embedded
     private Body body;
 
+    public static Note of(String title, String body) {
+        return new Note(null, new Title(title), new Body(body));
+    }
+
     public boolean isEmptyBody() {
         return body.isEmpty();
     }
 
-    public void updateTitle(String title) {
+    public void update(String title, String body) {
         this.title = new Title(title);
-    }
-
-    public void updateBody(String body) {
         this.body = new Body(body);
     }
 }

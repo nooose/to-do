@@ -14,8 +14,8 @@ public class NoteHashtag {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_note_id")
-    private ScheduleNote scheduleNote;
+    @JoinColumn(name = "note_id")
+    private Note note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hashtag_id")

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Embeddable
 public class Todos {
-    @OneToMany(mappedBy = "scheduleNote", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "note", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Todo> values = new ArrayList<>();
 
     public Todos() {
@@ -39,7 +39,7 @@ public class Todos {
     }
 
     public void setNote(ScheduleNote note) {
-        values.forEach(todo -> todo.setScheduleNote(note));
+        values.forEach(todo -> todo.setNote(note));
     }
 
     public void delete(Todo todo) {

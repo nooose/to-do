@@ -16,11 +16,13 @@ public class Todo extends AuditingFields {
     @Column(name = "todo_id")
     private Long id;
     private String contents;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_note_id")
-    private ScheduleNote scheduleNote;
+    @JoinColumn(name = "note_id")
+    private Note note;
 
     public Todo(String contents) {
         if (contents == null || contents.isEmpty()) {
@@ -39,8 +41,8 @@ public class Todo extends AuditingFields {
         return new Todo(contents);
     }
 
-    public void setScheduleNote(ScheduleNote scheduleNote) {
-        this.scheduleNote = scheduleNote;
+    public void setNote(Note note) {
+        this.note = note;
     }
 
     public void complete() {
