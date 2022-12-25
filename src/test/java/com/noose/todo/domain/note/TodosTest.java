@@ -1,5 +1,6 @@
 package com.noose.todo.domain.note;
 
+import com.noose.todo.domain.note.entity.Todo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

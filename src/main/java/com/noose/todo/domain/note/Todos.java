@@ -1,5 +1,7 @@
 package com.noose.todo.domain.note;
 
+import com.noose.todo.domain.note.entity.ScheduleNote;
+import com.noose.todo.domain.note.entity.Todo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
