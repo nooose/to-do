@@ -1,5 +1,7 @@
 package com.noose.todo.domain.note;
 
+import com.noose.todo.domain.note.entity.Hashtag;
+import com.noose.todo.domain.note.entity.Note;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

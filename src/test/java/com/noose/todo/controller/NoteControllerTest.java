@@ -2,7 +2,7 @@ package com.noose.todo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noose.todo.controller.dto.request.NoteRequest;
-import com.noose.todo.domain.note.Note;
+import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.exception.TodoException;
 import com.noose.todo.service.NoteService;
 import org.junit.jupiter.api.DisplayName;

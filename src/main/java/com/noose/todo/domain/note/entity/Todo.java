@@ -1,5 +1,7 @@
-package com.noose.todo.domain.note;
+package com.noose.todo.domain.note.entity;
 
+import com.noose.todo.domain.note.AuditingFields;
+import com.noose.todo.domain.note.Status;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

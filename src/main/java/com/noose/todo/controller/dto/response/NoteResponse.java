@@ -1,6 +1,6 @@
 package com.noose.todo.controller.dto.response;
 
-import com.noose.todo.domain.note.Note;
+import com.noose.todo.domain.note.entity.Note;
 
 import java.util.List;
 
