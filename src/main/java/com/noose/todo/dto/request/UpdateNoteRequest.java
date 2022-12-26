@@ -1,4 +1,4 @@
-package com.noose.todo.controller.dto.request;
+package com.noose.todo.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.noose.todo.controller.dto.request;
+package com.noose.todo.dto.request;
 
 import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.domain.note.entity.ScheduleNote;
