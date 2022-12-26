@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "title": "테스트 제목",
-  "body": "테스트 내용",
+  "body": "테스트 내용 #A #B #C",
   "todos": [
     "할 일1",
     "할 일2"
