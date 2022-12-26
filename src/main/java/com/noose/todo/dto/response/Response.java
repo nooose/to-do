@@ -1,4 +1,4 @@
-package com.noose.todo.controller.dto.response;
+package com.noose.todo.dto.response;
 
 public record Response<T>(
     String statusCode,

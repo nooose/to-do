@@ -1,6 +1,6 @@
 package com.noose.todo.exception;
 
-import com.noose.todo.controller.dto.response.Response;
+import com.noose.todo.dto.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

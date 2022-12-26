@@ -1,8 +1,8 @@
 package com.noose.todo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.noose.todo.controller.dto.request.NoteRequest;
-import com.noose.todo.domain.note.entity.Note;
+import com.noose.todo.dto.request.NoteRequest;
+import com.noose.todo.dto.response.NoteResponse;
 import com.noose.todo.exception.TodoException;
 import com.noose.todo.service.NoteService;
 import org.junit.jupiter.api.DisplayName;
@@ -64,7 +64,7 @@ public class NoteControllerTest {
     @DisplayName("[GET] Note 단건 조회 - 정상 호출")
     @Test
     void getNote() throws Exception {
-        given(noteService.searchById(anyLong())).willReturn(Note.of("title", "body"));
+        given(noteService.searchById(anyLong())).willReturn(new NoteResponse(1L, "title", "body", List.of()));
 
         mvc.perform(get("/api/v1/notes/1"))
                 .andExpect(status().isOk())

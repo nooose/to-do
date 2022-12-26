@@ -15,7 +15,7 @@ import java.util.List;
 @Embeddable
 public class Todos {
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "note",
             cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Todo> values = new ArrayList<>();
