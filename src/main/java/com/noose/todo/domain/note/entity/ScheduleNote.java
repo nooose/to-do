@@ -1,12 +1,16 @@
 package com.noose.todo.domain.note.entity;
 
-import com.noose.todo.domain.note.*;
-import jakarta.persistence.*;
+import com.noose.todo.domain.note.Body;
+import com.noose.todo.domain.note.Period;
+import com.noose.todo.domain.note.Title;
+import com.noose.todo.domain.note.Todos;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,9 +20,6 @@ import java.util.List;
 public class ScheduleNote extends Note {
     @Embedded
     private Period period;
-
-    @OneToMany(mappedBy = "note")
-    private List<NoteHashtag> noteHashtags = new ArrayList<>();
 
     @Embedded
     private Todos todos = new Todos();
