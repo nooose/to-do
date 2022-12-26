@@ -1,16 +1,17 @@
 package com.noose.todo.controller;
 
+import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.dto.request.NoteRequest;
 import com.noose.todo.dto.request.UpdateNoteRequest;
 import com.noose.todo.dto.response.NoteResponse;
 import com.noose.todo.dto.response.Response;
-import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/notes")
@@ -29,8 +30,8 @@ public class NoteController {
     }
 
     @GetMapping
-    public Response<List<NoteResponse>> getNotes() {
-        return Response.ok(noteService.searchAll());
+    public Response<Page<NoteResponse>> getNotes(@PageableDefault(size = 5) Pageable pageable) {
+        return Response.ok(noteService.searchAll(pageable));
     }
 
     @GetMapping("/{noteId}")
