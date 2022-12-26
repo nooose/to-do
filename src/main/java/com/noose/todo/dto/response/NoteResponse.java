@@ -8,7 +8,8 @@ public record NoteResponse(
         Long id,
         String title,
         String body,
-        List<TodoResponse> todos
+        List<TodoResponse> todos,
+        List<String> hashtags
 ) {
     public static NoteResponse from(Note entity) {
         return new NoteResponse(
@@ -18,6 +19,9 @@ public record NoteResponse(
                 entity.todos()
                         .stream()
                         .map(TodoResponse::from)
+                        .toList(),
+                entity.parseHashtags()
+                        .stream()
                         .toList()
         );
     }

@@ -1,8 +1,12 @@
 package com.noose.todo.service;
 
-import com.noose.todo.dto.request.UpdateNoteRequest;
-import com.noose.todo.domain.repository.NoteRepository;
+import com.noose.todo.domain.note.entity.NoteHashtag;
+import com.noose.todo.domain.note.entity.Hashtag;
 import com.noose.todo.domain.note.entity.Note;
+import com.noose.todo.domain.repository.HashtagRepository;
+import com.noose.todo.domain.repository.NoteHashtagRepository;
+import com.noose.todo.domain.repository.NoteRepository;
+import com.noose.todo.dto.request.UpdateNoteRequest;
 import com.noose.todo.dto.response.NoteResponse;
 import com.noose.todo.exception.TodoException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,9 +25,30 @@ import java.util.List;
 public class NoteService {
 
     private final NoteRepository noteRepository;
+    private final HashtagRepository hashtagRepository;
+    private final NoteHashtagRepository noteHashtagRepository;
 
     @Transactional
     public void save(Note note) {
+        //TODO: 코드 정리가 필요하다.
+
+        Set<String> hashtagNames = note.parseHashtags();
+        List<Hashtag> existingHashtags = hashtagRepository.findAllByHashtagNameIn(hashtagNames);
+
+        List<Hashtag> newHashtags = hashtagNames.stream()
+                .filter(hashtagName -> {
+                    return existingHashtags.stream()
+                            .noneMatch(hashtag -> hashtag.getHashtagName().equals(hashtagName));
+                })
+                .map(Hashtag::new)
+                .toList();
+
+        hashtagRepository.saveAll(newHashtags);
+
+        existingHashtags.addAll(newHashtags);
+        List<NoteHashtag> noteHashtags = NoteHashtag.of(existingHashtags);
+        note.addNoteHashtags(noteHashtags);
+        noteHashtagRepository.saveAll(noteHashtags);
         noteRepository.save(note);
     }
 
