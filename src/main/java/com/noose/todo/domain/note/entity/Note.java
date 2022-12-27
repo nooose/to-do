@@ -3,6 +3,7 @@ package com.noose.todo.domain.note.entity;
 import com.noose.todo.domain.note.AuditingFields;
 import com.noose.todo.domain.note.Body;
 import com.noose.todo.domain.note.Title;
+import com.noose.todo.domain.note.Todos;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +30,8 @@ public class Note extends AuditingFields {
     private Title title;
     @Embedded
     private Body body;
+    @Embedded
+    private Todos todos = new Todos();
 
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -47,9 +50,9 @@ public class Note extends AuditingFields {
         return new Note(null, new Title(title), new Body(body));
     }
 
-    public List<Todo> todos() {
-        return List.of();
-    }
+//    public List<Todo> todos() {
+//        return List.of();
+//    }
 
     public boolean isEmptyBody() {
         return body.isEmpty();
@@ -92,4 +95,23 @@ public class Note extends AuditingFields {
     public void clearHashtags() {
         noteHashtags.clear();
     }
+
+    public List<Todo> todos() {
+        return todos.getValues();
+    }
+
+    public void addTodo(Todo todo) {
+        todos.add(todo);
+        todo.setNote(this);
+    }
+
+    public void addTodos(Todos todos) {
+        this.todos.addAll(todos);
+        todos.setNote(this);
+    }
+
+    public int todoSize() {
+        return todos.size();
+    }
+
 }

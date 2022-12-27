@@ -1,6 +1,6 @@
 package com.noose.todo.domain.note;
 
-import com.noose.todo.domain.note.entity.ScheduleNote;
+import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.domain.note.entity.Todo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
@@ -47,7 +47,7 @@ public class Todos {
         this.values.addAll(todos.values);
     }
 
-    public void setNote(ScheduleNote note) {
+    public void setNote(Note note) {
         values.forEach(todo -> todo.setNote(note));
     }
 
