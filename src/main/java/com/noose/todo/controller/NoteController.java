@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class NoteController {
     }
 
     @GetMapping
-    public Response<Page<NoteResponse>> getNotes(@PageableDefault(size = 5) Pageable pageable) {
+    public Response<Page<NoteResponse>> getNotes(Pageable pageable) {
         return Response.ok(noteService.searchAll(pageable));
     }
 
