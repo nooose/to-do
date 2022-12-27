@@ -8,9 +8,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -19,8 +20,6 @@ import java.util.regex.Pattern;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 public class Note extends AuditingFields {
-
-    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w가-힣]+");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +30,12 @@ public class Note extends AuditingFields {
     @Embedded
     private Body body;
 
-    @OneToMany(mappedBy = "note")
-    private List<NoteHashtag> noteHashtags = new ArrayList<>();
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "note",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private Set<NoteHashtag> noteHashtags = new LinkedHashSet<>();
 
     public Note(Long id, Title title, Body body) {
         this.id = id;
@@ -57,20 +60,36 @@ public class Note extends AuditingFields {
         this.body = new Body(body);
     }
 
-    public Set<String> parseHashtags() {
-        Matcher matcher = HASHTAG_PATTERN.matcher(body.getContents().strip());
-        Set<String> result = new LinkedHashSet<>();
+    public void syncHashtags(Collection<Hashtag> existingHashTags) {
+        List<String> hashtagNamesInBody = hashtagNamesInBody();
+        List<String> existingHashtagNames = existingHashTags.stream()
+                .map(Hashtag::getHashtagName)
+                .toList();
 
-        while (matcher.find()) {
-            String hashtag = matcher.group().replace("#", "");
-            result.add(hashtag);
-        }
+        hashtagNamesInBody.forEach(hashtagName -> {
+            if (!existingHashtagNames.contains(hashtagName)) {
+                existingHashTags.add(Hashtag.of(hashtagName));
+            }
+        });
 
-        return Set.copyOf(result);
-    }
-
-    public void addNoteHashtags(Collection<NoteHashtag> noteHashtags) {
+        List<NoteHashtag> noteHashtags = existingHashTags.stream()
+                .map(NoteHashtag::from)
+                .toList();
         this.noteHashtags.addAll(noteHashtags);
         noteHashtags.forEach(noteHashtag -> noteHashtag.setNote(this));
+    }
+
+    public List<String> hashtagNamesInBody() {
+        return body.parseHashtags();
+    }
+
+    public List<Hashtag> hashTags() {
+        return noteHashtags.stream()
+                .map(NoteHashtag::getHashtag)
+                .toList();
+    }
+
+    public void clearHashtags() {
+        noteHashtags.clear();
     }
 }

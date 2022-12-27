@@ -5,10 +5,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Hashtag {
 
@@ -17,11 +19,13 @@ public class Hashtag {
     @Column(name = "hashtag_id")
     private Long id;
 
-    @Getter
     private String hashtagName;
 
-    @OneToMany(mappedBy = "hashtag")
-    private List<NoteHashtag> noteHashtags = new ArrayList<>();
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "hashtag",
+            orphanRemoval = true)
+    private Set<NoteHashtag> noteHashtags = new LinkedHashSet<>();
 
     public Hashtag(String hashtagName) {
         if (hashtagName == null) {
@@ -31,8 +35,25 @@ public class Hashtag {
         this.hashtagName = hashtagName;
     }
 
+    public static Hashtag of(String hashtagName) {
+        return new Hashtag(hashtagName);
+    }
+
     public void addNoteHashtag(NoteHashtag noteHashtag) {
         noteHashtags.add(noteHashtag);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hashtag hashtag = (Hashtag) o;
+        return id.equals(hashtag.id) && hashtagName.equals(hashtag.hashtagName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, hashtagName);
     }
 
     @Override
