@@ -5,9 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -22,7 +19,7 @@ public class NoteHashtag {
     @JoinColumn(name = "note_id")
     private Note note;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
     @JoinColumn(name = "hashtag_id")
     private Hashtag hashtag;
 
@@ -31,10 +28,12 @@ public class NoteHashtag {
         hashtag.addNoteHashtag(this);
     }
 
-    public static List<NoteHashtag> of(Collection<Hashtag> hashtags) {
-        return hashtags.stream()
-                .map(NoteHashtag::new)
-                .toList();
+    public static NoteHashtag from(Hashtag hashtag) {
+        return new NoteHashtag(hashtag);
+    }
+
+    public String hashtagName() {
+        return hashtag.getHashtagName();
     }
 
     public void setNote(Note note) {

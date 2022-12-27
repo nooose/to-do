@@ -6,12 +6,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
 @Embeddable
 public class Body {
-
+    private static final Pattern HASHTAG_PATTERN = Pattern.compile("#[\\w가-힣]+");
     private static final int MAX_LENGTH = 500;
 
     @Column
@@ -35,5 +41,17 @@ public class Body {
 
     public boolean isEmpty() {
         return contents.isEmpty();
+    }
+
+    public List<String> parseHashtags() {
+        Matcher matcher = HASHTAG_PATTERN.matcher(contents.strip());
+        Set<String> result = new LinkedHashSet<>();
+
+        while (matcher.find()) {
+            String hashtag = matcher.group().replace("#", "");
+            result.add(hashtag);
+        }
+
+        return List.copyOf(result);
     }
 }

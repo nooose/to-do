@@ -2,9 +2,6 @@ package com.noose.todo.service;
 
 import com.noose.todo.domain.note.entity.Hashtag;
 import com.noose.todo.domain.note.entity.Note;
-import com.noose.todo.domain.note.entity.NoteHashtag;
-import com.noose.todo.domain.repository.HashtagRepository;
-import com.noose.todo.domain.repository.NoteHashtagRepository;
 import com.noose.todo.domain.repository.NoteRepository;
 import com.noose.todo.dto.request.UpdateNoteRequest;
 import com.noose.todo.dto.response.NoteResponse;
@@ -26,40 +23,19 @@ import java.util.Set;
 @Service
 public class NoteService {
 
+    private final HashtagService hashtagService;
     private final NoteRepository noteRepository;
-    private final HashtagRepository hashtagRepository;
-    private final NoteHashtagRepository noteHashtagRepository;
 
     @Transactional
     public void save(Note note) {
-        //TODO: 코드 정리가 필요하다.
-
-        Set<String> hashtagNames = note.parseHashtags();
-        List<Hashtag> existingHashtags = hashtagRepository.findAllByHashtagNameIn(hashtagNames);
-
-        List<Hashtag> newHashtags = hashtagNames.stream()
-                .filter(hashtagName -> {
-                    return existingHashtags.stream()
-                            .noneMatch(hashtag -> hashtag.getHashtagName().equals(hashtagName));
-                })
-                .map(Hashtag::new)
-                .toList();
-
-        hashtagRepository.saveAll(newHashtags);
-
-        existingHashtags.addAll(newHashtags);
-        List<NoteHashtag> noteHashtags = NoteHashtag.of(existingHashtags);
-        note.addNoteHashtags(noteHashtags);
-        noteHashtagRepository.saveAll(noteHashtags);
+        List<String> hashtagNames = note.getBody().parseHashtags();
+        Set<Hashtag> existingHashtags = hashtagService.findAllByHashtagNames(hashtagNames);
+        note.syncHashtags(existingHashtags);
         noteRepository.save(note);
     }
 
     public NoteResponse searchById(Long noteId) {
-        Note note = noteRepository.findById(noteId).orElseThrow(() -> {
-            throw new TodoException(HttpStatus.NOT_FOUND, noteId + "번 데이터를 찾을 수 없습니다.");
-        });
-
-        return NoteResponse.from(note);
+        return NoteResponse.from(search(noteId));
     }
 
     public Page<NoteResponse> searchAll(Pageable pageable) {
@@ -69,21 +45,33 @@ public class NoteService {
 
     @Transactional
     public NoteResponse update(Long noteId, UpdateNoteRequest request) {
-        Note updateNote = noteRepository.findById(noteId).orElseThrow(() -> {
-            throw new TodoException(HttpStatus.NOT_FOUND, noteId + "번 데이터를 찾을 수 없습니다.");
-        });
+        Note note = search(noteId);
+        note.update(request.title(), request.body());
 
-        updateNote.update(request.title(), request.body());
+        List<Hashtag> hashtags = note.hashTags();
 
-        return NoteResponse.from(updateNote);
+        List<String> hashtagNames = note.hashtagNamesInBody();
+        Set<Hashtag> existingHashtags = hashtagService.findAllByHashtagNames(hashtagNames);
+        note.clearHashtags();
+        note.syncHashtags(existingHashtags);
+
+        noteRepository.flush();
+        hashtagService.deleteUnusedHashtags(hashtags);
+        return NoteResponse.from(note);
     }
 
     @Transactional
     public void delete(Long noteId) {
-        if (!noteRepository.existsById(noteId)) {
-            throw new TodoException(HttpStatus.NOT_FOUND, noteId + "번 데이터를 찾을 수 없습니다.");
-        }
-
+        Note note = search(noteId);
+        List<Hashtag> hashtags = note.hashTags();
         noteRepository.deleteById(noteId);
+        noteRepository.flush();
+        hashtagService.deleteUnusedHashtags(hashtags);
+    }
+
+    private Note search(Long noteId) {
+        return noteRepository.findById(noteId).orElseThrow(() -> {
+            throw new TodoException(HttpStatus.NOT_FOUND, noteId + "번 데이터를 찾을 수 없습니다.");
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.noose.todo.dto.response;
 
 import com.noose.todo.domain.note.entity.Note;
+import com.noose.todo.domain.note.entity.NoteHashtag;
 
 import java.util.List;
 
@@ -20,8 +21,9 @@ public record NoteResponse(
                         .stream()
                         .map(TodoResponse::from)
                         .toList(),
-                entity.parseHashtags()
+                entity.getNoteHashtags()
                         .stream()
+                        .map(NoteHashtag::hashtagName)
                         .toList()
         );
     }

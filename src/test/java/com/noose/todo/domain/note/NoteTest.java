@@ -2,10 +2,10 @@ package com.noose.todo.domain.note;
 
 import com.noose.todo.domain.note.entity.Hashtag;
 import com.noose.todo.domain.note.entity.Note;
-import com.noose.todo.domain.note.entity.NoteHashtag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,12 +22,12 @@ class NoteTest {
         String hashtagC = "테스트";
         Note newNote = Note.of("오늘은 월요일", String.format("오늘은 #%s 까지 #%s 한다. #%s", hashtagA, hashtagB, hashtagC));
 
-        Set<String> hashtagNames = newNote.parseHashtags();
+        List<String> hashtagNames = newNote.hashtagNamesInBody();
         Set<Hashtag> hashtags = hashtagNames.stream()
                 .map(Hashtag::new)
                 .collect(Collectors.toSet());
 
-        newNote.addNoteHashtags(NoteHashtag.of(hashtags));
+        newNote.syncHashtags(hashtags);
 
         assertThat(newNote.getNoteHashtags()).hasSize(3);
     }
