@@ -30,7 +30,7 @@ class HashtagRepositoryTest {
 
         hashtagRepository.saveAll(List.of(hashtagA, hashtagB, hashtagC));
 
-        List<Hashtag> hashtags = hashtagRepository.findAllByHashtagNameIn(Set.of(hashtagNameA, hashtagNameC, hashtagNameB));
+        Set<Hashtag> hashtags = hashtagRepository.findAllByHashtagNameIn(Set.of(hashtagNameA, hashtagNameC, hashtagNameB));
 
         assertThat(hashtags).contains(hashtagA, hashtagB, hashtagC);
     }

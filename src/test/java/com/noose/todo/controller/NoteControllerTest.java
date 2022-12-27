@@ -64,7 +64,7 @@ public class NoteControllerTest {
     @DisplayName("[GET] Note 단건 조회 - 정상 호출")
     @Test
     void getNote() throws Exception {
-        given(noteService.searchById(anyLong())).willReturn(new NoteResponse(1L, "title", "body", List.of()));
+        given(noteService.searchById(anyLong())).willReturn(new NoteResponse(1L, "title", "body", List.of(), List.of()));
 
         mvc.perform(get("/api/v1/notes/1"))
                 .andExpect(status().isOk())
