@@ -50,10 +50,6 @@ public class Note extends AuditingFields {
         return new Note(null, new Title(title), new Body(body));
     }
 
-//    public List<Todo> todos() {
-//        return List.of();
-//    }
-
     public boolean isEmptyBody() {
         return body.isEmpty();
     }
@@ -96,10 +92,6 @@ public class Note extends AuditingFields {
         noteHashtags.clear();
     }
 
-    public List<Todo> todos() {
-        return todos.getValues();
-    }
-
     public void addTodo(Todo todo) {
         todos.add(todo);
         todo.setNote(this);
@@ -113,5 +105,4 @@ public class Note extends AuditingFields {
     public int todoSize() {
         return todos.size();
     }
-
 }

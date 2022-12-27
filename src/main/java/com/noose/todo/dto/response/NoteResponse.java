@@ -17,7 +17,8 @@ public record NoteResponse(
                 entity.getId(),
                 entity.getTitle().getValue(),
                 entity.getBody().getContents(),
-                entity.todos()
+                entity.getTodos()
+                        .getValues()
                         .stream()
                         .map(TodoResponse::from)
                         .toList(),
