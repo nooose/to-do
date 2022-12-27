@@ -8,6 +8,8 @@ import com.noose.todo.dto.response.NoteResponse;
 import com.noose.todo.exception.TodoException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +38,9 @@ public class NoteService {
         return NoteResponse.from(search(noteId));
     }
 
-    public List<NoteResponse> searchAll() {
-        return noteRepository.findAll()
-                .stream()
-                .map(NoteResponse::from)
-                .toList();
+    public Page<NoteResponse> searchAll(Pageable pageable) {
+        return noteRepository.findAll(pageable)
+                .map(NoteResponse::from);
     }
 
     @Transactional

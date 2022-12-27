@@ -10,12 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -54,7 +57,7 @@ public class NoteControllerTest {
     @DisplayName("[GET] Note 조회 - 정상 호출")
     @Test
     void getNotes() throws Exception {
-        given(noteService.searchAll()).willReturn(List.of());
+        given(noteService.searchAll(any(PageRequest.class))).willReturn(Page.empty());
 
         mvc.perform(get("/api/v1/notes"))
                 .andExpect(status().isOk())
