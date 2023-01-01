@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
+@Deprecated
 public class GlobalRestControllerAdvice {
 
     @ExceptionHandler(TodoException.class)

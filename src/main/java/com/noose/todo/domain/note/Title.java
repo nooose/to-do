@@ -20,7 +20,7 @@ public class Title {
     public Title(String value) {
         validate(value);
 
-        this.value = value;
+        this.value = value.trim();
     }
 
     private void validate(String title) {

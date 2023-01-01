@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/notes")
 @RestController
+@Deprecated
 public class NoteController {
 
     private final NoteService noteService;
