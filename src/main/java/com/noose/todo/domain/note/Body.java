@@ -26,7 +26,7 @@ public class Body {
     public Body(String contents) {
         validate(contents);
 
-        this.contents = contents;
+        this.contents = contents.trim();
     }
 
     private void validate(String contents) {
