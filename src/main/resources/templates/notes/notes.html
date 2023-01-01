@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://unpkg.com/typeit@8.3.3/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/common.css"/>
+    <link rel="stylesheet" href="/css/floating.css"/>
+    <title>TODO</title>
+</head>
+<body>
+<div class="site-wrap" th:each="note : ${notes}">
+    <section data-scroll th:onclick="|javascript:update('${note.id}')|">
+        <h1 class="title" th:text="${note.title}">제목</h1>
+        <pre th:text="${note.body}">내용</pre>
+    </section>
+</div>
+
+<div class="floating-container">
+    <div class="floating-button">+</div>
+    <div class="element-container">
+
+        <a th:href="@{/notes/new}">
+            <span class="float-element tooltip-left">
+                <i class="material-icons">check_box</i></a>
+            </span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function update(idx) {
+        location.href = "/notes/" + idx;
+    }
+</script>
+
+<script>
+    ScrollOut({
+        onShown: (element) => {
+            new TypeIt(element.querySelector('.title'), {
+                startDelay: 100,
+                cursor: false,
+            })
+                .pause(2000)
+                .go();
+        },
+    });
+</script>
+</body>
+</html>

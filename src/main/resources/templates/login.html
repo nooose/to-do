@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://unpkg.com/typeit@8.3.3/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/scroll-out/dist/scroll-out.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/common.css"/>
+    <link rel="stylesheet" href="/css/floating.css"/>
+    <title>TODO</title>
+</head>
+<body>
+<div class="site-wrap">
+    <div data-scroll>
+        <h1 class="logo">To-Do !!</h1>
+    </div>
+    <div class="login">
+        <a th:href="@{/notes}">
+            <img class="login-btn" alt="Kakao Login" src="/images/kakao_login_large_narrow.png">
+        </a>
+    </div>
+</div>
+<script>
+    ScrollOut({
+        onShown: (element) => {
+            new TypeIt(element.querySelector('.logo'), {
+                startDelay: 500,
+                cursor: false,
+            })
+                .pause(2000)
+                .go();
+        },
+    });
+</script>
+</body>
+</html>
