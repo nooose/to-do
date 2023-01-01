@@ -59,4 +59,11 @@ public class NoteViewController {
 
         return "redirect:/notes";
     }
+
+    @PostMapping("/{noteId}/delete")
+    public String updateForm(@PathVariable Long noteId) {
+        noteService.delete(noteId);
+
+        return "redirect:/notes";
+    }
 }

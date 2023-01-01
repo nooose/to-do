@@ -19,16 +19,38 @@
     <form th:action="${status?.update} ? '/notes/' + ${note.id} + '/update' : '/notes/new'" th:method="post">
         <section data-scroll>
             <input th:value="${note?.title}" type="text" class="form-control" id="title" name="title" required
-                   placeholder="제목" onkeyup="keyEvent(this)">
+                   placeholder="제목" onkeypress="keyEvent(this)">
             <textarea th:text="${note?.body}" class="form-control" id="content" name="body" rows="5" required
                       placeholder="내용"></textarea>
         </section>
         <div id="save">
             <button type="submit" class="btn btn-success btn-lg">저장</button>
-            <button type="button" class="btn btn-danger btn-lg" th:onclick="'history.back()'">취소</button>
+            <button th:if="${status?.update}" type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#Modal">
+                삭제
+            </button>
+            <button type="button" class="btn btn-secondary btn-lg" th:onclick="'history.back()'">취소</button>
         </div>
     </form>
 </div>
+
+<!-- Modal -->
+<div th:if="${status?.update}" class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalLabel">정말 삭제 하시겠습니까?</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="'/notes/' + ${note.id} + '/delete'" th:method="post">
+                    <button type="submit" class="btn btn-danger">삭제</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 <script>
     function keyEvent() {
         if (event.keyCode === 13 || event.keyCode === 40) {
@@ -48,5 +70,4 @@
         },
     });
 </script>
-</body>
 </html>
