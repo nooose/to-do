@@ -3,7 +3,6 @@ plugins {
     id 'org.springframework.boot' version '3.0.0'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.graalvm.buildtools.native' version '0.9.18'
-    id 'com.github.node-gradle.node' version '3.5.0'
 }
 
 group = 'com.noose'
@@ -23,6 +22,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
@@ -38,28 +38,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-node {
-    nodeModulesDir = file("$projectDir/front-end")
-    version = '18.12.1'
-    download = true
-}
-
-task npmBuild(type: NpmTask) {
-    args = ['run', "build"]
-}
-
-task copyFrontEnd(type: Copy) {
-    from "$projectDir/front-end/build"
-    into 'build/resources/main/static/.'
-}
-
-task cleanFrontEnd(type: Delete) {
-    delete "$projectDir/front-end/build", "$projectDir/front-end/node_modules"
-}
-
-npmBuild.dependsOn npmInstall
-copyFrontEnd.dependsOn npmBuild
-compileJava.dependsOn copyFrontEnd
-
-clean.dependsOn cleanFrontEnd
