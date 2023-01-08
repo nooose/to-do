@@ -26,13 +26,13 @@ public class NoteViewController {
     @GetMapping("/new")
     public String noteForm(Model model) {
         model.addAttribute("status", FormStatus.CREATE);
+        model.addAttribute("note", NoteRequest.empty());
         return "notes/noteForm";
     }
 
     @PostMapping("/new")
     public String createNote(NoteRequest noteRequest) {
         noteService.save(noteRequest.toEntity());
-
         return "redirect:/notes";
     }
 
@@ -47,7 +47,6 @@ public class NoteViewController {
     @GetMapping("/{noteId}")
     public String getNote(@PathVariable Long noteId, Model model) {
         NoteResponse note = noteService.searchById(noteId);
-
         model.addAttribute("status", FormStatus.UPDATE);
         model.addAttribute("note", note);
         return "notes/noteForm";
