@@ -16,16 +16,36 @@
 </head>
 <body>
 <div class="site-wrap">
-    <form th:action="${status?.update} ? '/notes/' + ${note.id} + '/update' : '/notes/new'" th:method="post">
+    <form th:action="${status?.update} ? '/notes/' + ${note.id} + '/update' : '/notes/new'" th:object="${note}" th:method="post">
         <section data-scroll>
-            <input th:value="${note?.title}" type="text" class="form-control" id="title" name="title" required
+            <input th:value="${note?.title}" th:field="*{title}" type="text" class="form-control" id="title" name="title" required
                    placeholder="제목" onkeypress="keyEvent(this)">
-            <textarea th:text="${note?.body}" class="form-control" id="content" name="body" rows="5" required
+            <textarea th:text="${note?.body}" th:field="*{body}" class="form-control" id="content" name="body" rows="5" required
                       placeholder="내용"></textarea>
+            <br>
+            <input class="form-check-input me-2" type="checkbox" value="" aria-label="..." th:field="*{todos[0].status}" />
+            <input type="hidden" className="form-control" th:field="*{todos[0].todo}" required value="">
+                <div class="form-outline flex-fill" style="display: flex; flex-wrap: wrap">
+                    <input type="text" id="todo" class="form-control" placeholder="할 일" style="flex: 1 1 80%; font-size: 17px"/>
+                    <button type="button" id="addTodo" class="btn btn-primary" style="font-size: 17px">Add</button>
+                </div>
+                <ul class="list-group mb-0" id="toDoList" style="list-style: none">
+                    <th:block th:if="${note?.todos}">
+                        <div class="d-flex align-items-center" th:each="todo : *{todos}">
+                            <input class="form-check-input me-2" type="checkbox" aria-label="..." name="status" th:check="${todo.status}"/>
+                            <input type="hidden" className="form-control" id="todos" name="todos" required th:value="${todo.todo}">
+                            <span th:text="${todo.todo}"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" id="'+ toDos.length +'" onclick="deleteTodo(this)" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </div>
+                    </th:block>
+                </ul>
         </section>
         <div id="save">
             <button type="submit" class="btn btn-success btn-lg">저장</button>
-            <button th:if="${status?.update}" type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#Modal">
+            <button th:if="${status?.update}" type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#Modal">
                 삭제
             </button>
             <button type="button" class="btn btn-secondary btn-lg" th:onclick="'history.back()'">취소</button>
@@ -34,7 +54,8 @@
 </div>
 
 <!-- Modal -->
-<div th:if="${status?.update}" class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+<div th:if="${status?.update}" class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,5 +90,45 @@
                 .go();
         },
     });
+</script>
+<script>
+    const todoContent = document.querySelector("#todo");
+    const addTodo = document.querySelector("#addTodo");
+    const todoList = document.querySelector("#toDoList");
+
+    const toDos = new Array();
+    function addTodoList() {
+        const todo = todoContent.value;
+        if (todo == '') {
+            todoContent.focus();
+            return;
+        }
+
+        const todoElement = document.createElement('li');
+        todoElement.setAttribute('id', toDos.length);
+        todoElement.innerHTML = '<div class="d-flex align-items-center">\n' +
+            '                  <input class="form-check-input me-2" type="checkbox" value="" aria-label="..." th:field="*{todos[0].status}" />\n' + todo +
+            '                <input type="hidden" className="form-control" th:field="*{todos[0].todo}" required value=' + todo + '> ' +
+            '                    <svg xmlns="http://www.w3.org/2000/svg" id="'+ toDos.length +'" onclick="deleteTodo(this)" width="16" height="16" fill="currentColor"\n' +
+            '                         className="bi bi-x" viewBox="0 0 16 16">\n' +
+            '                        <path\n' +
+            '                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\n' +
+            '                    </svg>\n' +
+            '                <br>' +
+            '                </div>'
+
+        toDos.push(todo);
+        console.log(todo);
+        console.log(toDos);
+        todoList.appendChild(todoElement);
+        todoContent.value = '';
+        todoContent.focus();
+    }
+    addTodo.addEventListener("click", addTodoList);
+
+    function deleteTodo(element) {
+        element.parentNode.remove();
+    }
+
 </script>
 </html>
