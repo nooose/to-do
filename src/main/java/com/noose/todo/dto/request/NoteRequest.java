@@ -1,9 +1,8 @@
 package com.noose.todo.dto.request;
 
+import com.noose.todo.domain.note.Todos;
 import com.noose.todo.domain.note.entity.Note;
 import com.noose.todo.domain.note.entity.ScheduleNote;
-import com.noose.todo.domain.note.entity.Todo;
-import com.noose.todo.domain.note.Todos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,7 +14,7 @@ public record NoteRequest(
     String title,
     @NotNull
     String body,
-    List<String> todos
+    List<TodoRequest> todos
 ) {
 
     public Note toEntity() {
@@ -24,8 +23,12 @@ public record NoteRequest(
         }
 
         Todos newTodos = new Todos(todos.stream()
-                .map(Todo::of)
+                .map(TodoRequest::toEntity)
                 .toList());
         return ScheduleNote.of(title, body, newTodos);
+    }
+
+    public static NoteRequest empty() {
+        return new NoteRequest("", "", List.of());
     }
 }

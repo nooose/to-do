@@ -39,6 +39,15 @@ public class Todo extends AuditingFields {
         this.status = Status.INCOMPLETE;
     }
 
+    public Todo(String contents, Status status) {
+        this.contents = contents;
+        this.status = status;
+    }
+
+    public static Todo of(String contents, Status status) {
+        return new Todo(contents, status);
+    }
+
     public static Todo of(String contents) {
         return new Todo(contents);
     }

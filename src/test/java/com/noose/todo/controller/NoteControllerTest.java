@@ -2,6 +2,7 @@ package com.noose.todo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.noose.todo.dto.request.NoteRequest;
+import com.noose.todo.dto.request.TodoRequest;
 import com.noose.todo.dto.response.NoteResponse;
 import com.noose.todo.exception.TodoException;
 import com.noose.todo.service.NoteService;
@@ -41,7 +42,7 @@ public class NoteControllerTest {
     @DisplayName("[POST] Note 생성 - 정상 호출")
     @Test
     void createNote() throws Exception {
-        NoteRequest request = new NoteRequest("title", "body", List.of("todo1", "todo2"));
+        NoteRequest request = new NoteRequest("title", "body", List.of(new TodoRequest("안녕?", false)));
 
         mvc.perform(post("/api/v1/notes")
                         .content(mapper.writeValueAsString(request))
